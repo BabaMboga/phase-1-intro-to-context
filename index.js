@@ -31,3 +31,20 @@ function createTimeInEvent(employee, dateStamp) {
     employee.timeInEvents.push({type: 'TimeIn', hour: parseInt(hour + minute), date });
     return employee;
 }
+
+function createTimeOutEvent(employee, dateStamp) {
+    const [date, time] = dateStamp.split(' ');
+    const [year, month, day] = date.split('-');
+    const hour = time.slice(0, 2);
+    const minute = time.slice(2);
+    const dateTime = new Date(year, month-1, day, hour, minute);
+    employee.timeOutEvents.push({ type: 'TimeOut', hour: parseInt(hour + minute), date});
+    return employee;
+}
+
+function hoursWorkedOnDate(employee, date) {
+    const timeIn = employee.timeInEvents.find(event => event.date === date);
+    const timeOut = employee.timeOutEvents.find(event => event.date === date);
+    const hoursWorked = calculateHours(`${date} ${timeIn.hour}`, `${date} ${timeOut.hour}`);
+    return hoursWorked;
+}
