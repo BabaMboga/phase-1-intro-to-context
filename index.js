@@ -1,11 +1,11 @@
 // Your code here
-function calculateHours(startStamp, endStamp){
-    const start = new Date(startStamp);
-    const end = new Date(endStamp);
-    const diffMs = end-start;
-    const diffHrs = diffMs / (1000 * 60 * 60); // convert milliseconds to hours
-    return Math.abs(diffHrs); 
-}
+// function calculateHours(startStamp, endStamp){
+//     const start = new Date(startStamp);
+//     const end = new Date(endStamp);
+//     const diffMs = end-start;
+//     const diffHrs = diffMs / (1000 * 60 * 60); // convert milliseconds to hours
+//     return Math.abs(diffHrs); 
+// }
 
 function createEmployeeRecord(employeeData) {
     return {
@@ -42,9 +42,40 @@ function createTimeOutEvent(employee, dateStamp) {
     return employee;
 }
 
+// function hoursWorkedOnDate(employee, date) {
+//     const timeIn = employee.timeInEvents.find(event => event.date === date);
+//     const timeOut = employee.timeOutEvents.find(event => event.date === date);
+//     const hoursWorked = calculateHours(`${timeIn.hour}`, ` ${timeOut.hour}`);
+//     return Math.abs(hoursWorked);
+// }
+
+// function hoursWorkedOnDate(employee, date) {
+//     const timeIn = employee.timeInEvents.find(event => event.date === date);
+//     const timeOut = employee.timeOutEvents.find(event => event.date === date);
+
+//     if (timeIn && timeOut) {
+
+//         const timeInString = `${timeIn.date} ${timeIn.hour}:${timeIn.minute}`;
+//         const timeOutString = `${timeOut.date} ${timeOut.hour}:${timeOut.minute}`;
+//         const hoursWorked = calculateHours(timeInString, timeOutString);
+//         return hoursWorked;
+//     } else {
+//         return 0;
+//     }
+// }
+
 function hoursWorkedOnDate(employee, date) {
     const timeIn = employee.timeInEvents.find(event => event.date === date);
     const timeOut = employee.timeOutEvents.find(event => event.date === date);
-    const hoursWorked = calculateHours(`${date} ${timeIn.hour}`, `${date} ${timeOut.hour}`);
-    return hoursWorked;
+
+    if (timeIn && timeOut) {
+        const timeInMinutes = timeIn.hour*60 + timeIn.minute;
+        const timeOutMinutes = timeIn.hour*60 + timeOut.minute;
+
+        const hoursWorked = (timeOutMinutes - timeInMinutes) / 60;
+        return hoursWorked;
+    } else {
+        return 0;
+    }
 }
+
